@@ -1,0 +1,152 @@
+newmtl sazabi_1:Material__518
+illum 4
+Kd 0.59 0.59 0.59
+Ka 0.59 0.59 0.59
+Tf 1.00 1.00 1.00
+Ni 1.50
+Ks 0.00 0.00 0.00
+Ns 10.00
+newmtl sazabi_1:Material__2594
+illum 4
+Kd 0.09 0.09 0.09
+Ka 0.09 0.09 0.09
+Tf 1.00 1.00 1.00
+Ni 1.50
+Ks 0.91 0.91 0.91
+Ns 20.00
+newmtl sazabi_1:___Default
+illum 4
+Kd 0.06 0.07 0.07
+Ka 0.06 0.07 0.07
+Tf 1.00 1.00 1.00
+Ni 1.50
+Ks 0.48 0.48 0.48
+Ns 40.00
+newmtl sazabi_1:___Default2
+illum 4
+Kd 0.47 0.02 0.02
+Ka 0.47 0.02 0.02
+Tf 1.00 1.00 1.00
+Ni 1.50
+Ks 0.45 0.45 0.45
+Ns 40.00
+newmtl sazabi_1:___Default4
+illum 4
+Kd 0.78 0.02 0.02
+Ka 0.78 0.02 0.02
+Tf 1.00 1.00 1.00
+Ni 1.50
+Ks 0.45 0.45 0.45
+Ns 40.00
+newmtl sazabi_1:___Default6
+illum 4
+Kd 0.81 0.09 0.09
+Ka 0.81 0.09 0.09
+Tf 1.00 1.00 1.00
+Ni 1.50
+Ks 0.45 0.45 0.45
+Ns 40.00
+newmtl sazabi_1:___Default8
+illum 4
+Kd 0.02 0.02 0.02
+Ka 0.02 0.02 0.02
+Tf 1.00 1.00 1.00
+Ni 1.50
+Ks 0.54 0.54 0.54
+Ns 45.00
+newmtl sazabi_1:___Default10
+illum 4
+Kd 0.52 0.25 0.00
+Ka 0.52 0.25 0.00
+Tf 1.00 1.00 1.00
+Ni 1.50
+Ks 0.85 0.85 0.85
+Ns 34.00
+newmtl sazabi_1:___Default12
+illum 4
+Kd 0.59 0.59 0.59
+Ka 0.59 0.59 0.59
+Tf 1.00 1.00 1.00
+Ni 1.50
+Ks 0.86 0.86 0.86
+Ns 23.00
+newmtl sazabi_1:___Default14
+illum 4
+Kd 1.00 0.51 0.00
+Ka 1.00 0.51 0.00
+Tf 1.00 1.00 1.00
+Ni 1.50
+Ks 0.00 0.00 0.00
+Ns 10.00
+newmtl sazabi_1:___Default16
+illum 4
+Kd 0.89 0.89 0.89
+Ka 0.89 0.89 0.89
+Tf 1.00 1.00 1.00
+Ni 1.50
+Ks 0.00 0.00 0.00
+Ns 10.00
+newmtl sazabi_1:___Default18
+illum 4
+Kd 1.00 0.47 0.00
+Ka 1.00 0.47 0.00
+Tf 1.00 1.00 1.00
+Ni 1.50
+Ks 0.00 0.00 0.00
+Ns 10.00
+newmtl sazabi_1:___Default20
+illum 4
+Kd 1.00 0.09 0.13
+Ka 1.00 0.09 0.13
+Tf 1.00 1.00 1.00
+Ni 1.50
+Ks 0.00 0.00 0.00
+Ns 10.00
+newmtl sazabi_1:___Default22
+illum 4
+Kd 0.00 1.00 1.00
+Ka 0.00 1.00 1.00
+Tf 1.00 1.00 1.00
+Ni 1.50
+Ks 0.00 0.00 0.00
+Ns 10.00
+newmtl sazabi_1:___Default24
+illum 4
+Kd 0.29 0.29 0.29
+Ka 0.29 0.29 0.29
+Tf 1.00 1.00 1.00
+Ni 1.50
+Ks 0.00 0.00 0.00
+Ns 10.00
+newmtl sazabi_1:set1
+illum 4
+Kd 0.04 0.04 0.04
+Ka 0.04 0.04 0.04
+Tf 1.00 1.00 1.00
+Ni 1.50
+Ks 0.24 0.24 0.24
+Ns 25.00
+newmtl sazabi_1:wire_016016016
+illum 4
+Kd 0.06 0.06 0.06
+Ka 0.06 0.06 0.06
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.35 0.35 0.35
+Ns 32.00
+newmtl sazabi_1:wire_135059008
+illum 4
+Kd 0.53 0.23 0.03
+Ka 0.53 0.23 0.03
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.35 0.35 0.35
+Ns 32.00
+newmtl sazabi_1:wire_140088225
+illum 4
+Kd 0.55 0.35 0.88
+Ka 0.55 0.35 0.88
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.35 0.35 0.35
+Ns 32.00

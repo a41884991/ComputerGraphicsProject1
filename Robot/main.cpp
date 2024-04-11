@@ -51,6 +51,8 @@
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
+void OnMouseCursorPos(GLFWwindow* window, double xPos, double yPos);
+void OnMouse(GLFWwindow* window, int button, int action, int mods);
 std::vector<Model> loadModel();
 void setLightSetting(Shader& shader, bool* lightOn, float* dirLightColor, float* pointLightColor, float* spotLightColor);
 glm::vec3 arrayToVec3(const float* array);
@@ -141,6 +143,8 @@ int main()
 	}
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);	//註冊FramebufferSizeCallback function
+	glfwSetCursorPosCallback(window, OnMouseCursorPos);
+	glfwSetMouseButtonCallback(window, OnMouse);
 
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -153,6 +157,7 @@ int main()
 
 	glEnable(GL_DEPTH_TEST);	//啟用深度測試
 	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 	glFrontFace(GL_CCW);
 
 	Shader shader("shader/modelVS.vs", "shader/modelFS.fs");
@@ -207,71 +212,73 @@ int main()
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplGlfw_NewFrame();
+		{
+			ImGui_ImplOpenGL3_NewFrame();
+			ImGui_ImplGlfw_NewFrame();
 
-		ImGui::NewFrame();
+			ImGui::NewFrame();
 
-		ImGui::SetNextWindowSize(ImVec2(600, 250), ImGuiCond_FirstUseEver);
-		ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_FirstUseEver);
-		ImGui::Begin("Controll");
+			ImGui::SetNextWindowSize(ImVec2(600, 250), ImGuiCond_FirstUseEver);
+			ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_FirstUseEver);
+			ImGui::Begin("Controll");
 
-		ImGui::Checkbox("Directional Light", &lightOn[0]);
-		ImGui::ColorEdit3("Directional Light Color", dirLightColor);
-		ImGui::Checkbox("Point Light", &lightOn[1]);
-		ImGui::ColorEdit3("Point Light Color", pointLightColor);
-		ImGui::Checkbox("Spot Light", &lightOn[2]);
-		ImGui::ColorEdit3("Spot Light Color", spotLightColor);
+			ImGui::Checkbox("Directional Light", &lightOn[0]);
+			ImGui::ColorEdit3("Directional Light Color", dirLightColor);
+			ImGui::Checkbox("Point Light", &lightOn[1]);
+			ImGui::ColorEdit3("Point Light Color", pointLightColor);
+			ImGui::Checkbox("Spot Light", &lightOn[2]);
+			ImGui::ColorEdit3("Spot Light Color", spotLightColor);
 
-		if (ImGui::BeginCombo("Action", actionOptions[actionNum])) {
-			for (int i = 0; i < IM_ARRAYSIZE(actionOptions); i++) {
-				bool isSelected = (actionNum == i);
-				if (ImGui::Selectable(actionOptions[i], isSelected))
-					actionNum = i;
+			if (ImGui::BeginCombo("Action", actionOptions[actionNum])) {
+				for (int i = 0; i < IM_ARRAYSIZE(actionOptions); i++) {
+					bool isSelected = (actionNum == i);
+					if (ImGui::Selectable(actionOptions[i], isSelected))
+						actionNum = i;
 
+					if (isSelected)
+						ImGui::SetItemDefaultFocus();
+				}
 
-				if (isSelected)
-					ImGui::SetItemDefaultFocus();
+				ImGui::EndCombo();
 			}
 
-			ImGui::EndCombo();
+			ImGui::SliderInt("Speed", &actionSpeed, 40, 6, "");
+
+			{
+				if (ImGui::Button("Front"))
+				{
+					camera.Position = glm::vec3(0.0f, 0.5f, 3.0f);
+					camera.Front = glm::vec3(0.0f, 0.0f, -1.0f);
+				}
+				ImGui::SameLine();
+
+				if (ImGui::Button("Back"))
+				{
+					camera.Position = glm::vec3(0.0f, 0.5f, -3.0f);
+					camera.Front = glm::vec3(0.0f, 0.0f, 1.0f);
+				}
+				ImGui::SameLine();
+
+				if (ImGui::Button("Right"))
+				{
+					camera.Position = glm::vec3(3.0f, 0.5f, 0.0f);
+					camera.Front = glm::vec3(-1.0f, 0.0f, 0.0f);
+				}
+				ImGui::SameLine();
+
+				if (ImGui::Button("Left"))
+				{
+					camera.Position = glm::vec3(-3.0f, 0.5f, 0.0f);
+					camera.Front = glm::vec3(1.0f, 0.0f, 0.0f);
+				}
+				ImGui::SameLine();
+				ImGui::Text("View");
+			}
+
+			ImGui::Text("FPS: %d", displayFrames);
+
+			ImGui::End();
 		}
-
-		ImGui::SliderInt("Speed", &actionSpeed, 40, 6, "");
-
-		if (ImGui::Button("Front"))
-		{
-			camera.Position = glm::vec3(0.0f, 0.5f, 3.0f);
-			camera.Front = glm::vec3(0.0f, 0.0f, -1.0f);
-		}
-		ImGui::SameLine();
-
-		if (ImGui::Button("Back"))
-		{
-			camera.Position = glm::vec3(0.0f, 0.5f, -3.0f);
-			camera.Front = glm::vec3(0.0f, 0.0f, 1.0f);
-		}
-		ImGui::SameLine();
-
-		if (ImGui::Button("Right"))
-		{
-			camera.Position = glm::vec3(3.0f, 0.5f, 0.0f);
-			camera.Front = glm::vec3(-1.0f, 0.0f, 0.0f);
-		}
-		ImGui::SameLine();
-
-		if (ImGui::Button("Left"))
-		{
-			camera.Position = glm::vec3(-3.0f, 0.5f, 0.0f);
-			camera.Front = glm::vec3(1.0f, 0.0f, 0.0f);
-		}
-		ImGui::SameLine();
-
-		ImGui::Text("View");
-
-		ImGui::Text("FPS: %d", displayFrames);
-
-		ImGui::End();
 
 		Action::chooseAction(actionNum);
 
@@ -295,7 +302,7 @@ int main()
 			shader.setMat4("normalMat", normalMat);
 
 			models[i].Draw(shader);
-	}
+		}
 
 		shader.setMat4("model", stageModel);
 		stage.Draw(shader);
@@ -320,7 +327,7 @@ int main()
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
-}
+	}
 
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
@@ -348,16 +355,43 @@ void processInput(GLFWwindow* window)
 		camera.ProcessKeyboard(LEFT, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		camera.ProcessKeyboard(RIGHT, deltaTime);
+}
 
-	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+void OnMouseCursorPos(GLFWwindow* window, double xPos, double yPos)
+{
+	static double lastX;
+	static double lastY;
+	static bool isFirst = true;
+
+	if (isFirst || !enableMouseMovement)
 	{
-		enableMouseMovement = !enableMouseMovement;
-
-		if (enableMouseMovement)
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-		else
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		lastX = xPos;
+		lastY = yPos;
+		isFirst = false;
+		return;
 	}
+
+	float xOffset = xPos - lastX;
+	float yOffset = lastY - yPos; // reversed since y-coordinates go from bottom to top
+
+	lastX = xPos;
+	lastY = yPos;
+
+	camera.ProcessMouseMovement(xOffset, yOffset);
+}
+
+void OnMouse(GLFWwindow* window, int button, int action, int mods)
+{
+	const ImGuiIO& io = ImGui::GetIO();
+
+	if (!io.WantCaptureMouse)
+	{
+		if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+			enableMouseMovement = true;
+		else
+			enableMouseMovement = false;
+	}
+
 }
 
 std::vector<Model> loadModel()

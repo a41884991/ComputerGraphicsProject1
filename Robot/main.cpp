@@ -220,7 +220,7 @@ int main()
 
 			ImGui::NewFrame();
 
-			ImGui::SetNextWindowSize(ImVec2(600, 250), ImGuiCond_FirstUseEver);
+			ImGui::SetNextWindowSize(ImVec2(600, 300), ImGuiCond_FirstUseEver);
 			ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_FirstUseEver);
 			ImGui::Begin("Controll");
 
@@ -294,13 +294,6 @@ int main()
 			}
 
 			ImGui::Text("FPS: %d", displayFrames);
-
-			ImGui::End();
-		}
-		{
-			ImGui::SetNextWindowSize(ImVec2(600, 250), ImGuiCond_FirstUseEver);
-			ImGui::SetNextWindowPos(ImVec2(0, 250), ImGuiCond_FirstUseEver);
-			ImGui::Begin("Debug");
 
 			ImGui::End();
 		}

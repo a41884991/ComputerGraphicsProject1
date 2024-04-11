@@ -97,6 +97,8 @@ float lastFrame = 0.0f;
 
 int actionSpeed = 20;
 
+int testX, testY;
+
 glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 
 glm::vec3 fullBodyMovement;
@@ -249,6 +251,10 @@ int main()
 				{
 					camera.Position = glm::vec3(0.0f, 0.5f, 3.0f);
 					camera.Front = glm::vec3(0.0f, 0.0f, -1.0f);
+					camera.Up = glm::vec3(0.0f, 1.0f, 0.0f);
+					camera.Yaw = 270.0f;
+					camera.Pitch = 0.0f;
+					firstMouse = true;
 				}
 				ImGui::SameLine();
 
@@ -256,6 +262,10 @@ int main()
 				{
 					camera.Position = glm::vec3(0.0f, 0.5f, -3.0f);
 					camera.Front = glm::vec3(0.0f, 0.0f, 1.0f);
+					camera.Up = glm::vec3(0.0f, 1.0f, 0.0f);
+					camera.Yaw = 90.0f;
+					camera.Pitch = 0.0f;
+					firstMouse = true;
 				}
 				ImGui::SameLine();
 
@@ -263,6 +273,10 @@ int main()
 				{
 					camera.Position = glm::vec3(3.0f, 0.5f, 0.0f);
 					camera.Front = glm::vec3(-1.0f, 0.0f, 0.0f);
+					camera.Up = glm::vec3(0.0f, 1.0f, 0.0f);
+					camera.Yaw = 180.0f;
+					camera.Pitch = 0.0f;
+					firstMouse = true;
 				}
 				ImGui::SameLine();
 
@@ -270,12 +284,23 @@ int main()
 				{
 					camera.Position = glm::vec3(-3.0f, 0.5f, 0.0f);
 					camera.Front = glm::vec3(1.0f, 0.0f, 0.0f);
+					camera.Up = glm::vec3(0.0f, 1.0f, 0.0f);
+					camera.Yaw = 0.0f;
+					camera.Pitch = 0.0f;
+					firstMouse = true;
 				}
 				ImGui::SameLine();
 				ImGui::Text("View");
 			}
 
 			ImGui::Text("FPS: %d", displayFrames);
+
+			ImGui::End();
+		}
+		{
+			ImGui::SetNextWindowSize(ImVec2(600, 250), ImGuiCond_FirstUseEver);
+			ImGui::SetNextWindowPos(ImVec2(0, 250), ImGuiCond_FirstUseEver);
+			ImGui::Begin("Debug");
 
 			ImGui::End();
 		}
@@ -361,18 +386,17 @@ void OnMouseCursorPos(GLFWwindow* window, double xPos, double yPos)
 {
 	static double lastX;
 	static double lastY;
-	static bool isFirst = true;
 
-	if (isFirst || !enableMouseMovement)
+	if (firstMouse || !enableMouseMovement)
 	{
 		lastX = xPos;
 		lastY = yPos;
-		isFirst = false;
+		firstMouse = false;
 		return;
 	}
 
-	float xOffset = xPos - lastX;
-	float yOffset = lastY - yPos; // reversed since y-coordinates go from bottom to top
+	float xOffset = xPos - lastX; // reversed since y-coordinates go from bottom to top
+	float yOffset = lastY - yPos;
 
 	lastX = xPos;
 	lastY = yPos;

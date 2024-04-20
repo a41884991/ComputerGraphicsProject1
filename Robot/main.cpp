@@ -895,6 +895,8 @@ void Action::Squad(int& step)
 
 void Action::KamaHameHa(int& step)
 {
+	static int idleCount = 0;
+
 	switch (step)
 	{
 	case 0:
@@ -973,7 +975,7 @@ void Action::KamaHameHa(int& step)
 		modelAngles[RIGHT_ARM_DOWN].y += 10.0f / actionSpeed;
 		modelAngles[RIGHT_ARM_DOWN].z += -75.0f / actionSpeed;
 
-		modelAngles[RIGHT_HAND].x += 90.0f / actionSpeed;
+		modelAngles[RIGHT_HAND].z += -90.0f / actionSpeed;
 
 		modelAngles[RIGHT_LEG_UP].x += 50.0f / actionSpeed;
 		modelAngles[RIGHT_LEG_UP].y += 105.0f / actionSpeed;
@@ -992,61 +994,14 @@ void Action::KamaHameHa(int& step)
 			step = 3;
 		break;
 	case 3:
-		fullBodyRotation.x += -15.0f / actionSpeed;
-		fullBodyRotation.y += -85.0f / actionSpeed;
-
-		modelAngles[BODY_DOWN].z += 10.0f / actionSpeed;
-
-		modelAngles[HEAD].x += 15.0f / actionSpeed;
-		modelAngles[HEAD].y += 80.0f / actionSpeed;
-		modelAngles[HEAD].z += 10.0f / actionSpeed;
-
-		modelAngles[LEFT_ARM_UP].x += -110.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].y += 150.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].z += -145.0f / actionSpeed;
-
-		modelAngles[LEFT_ARM_DOWN].x += -25.0f / actionSpeed;
-		modelAngles[LEFT_ARM_DOWN].y += 30.0f / actionSpeed;
-		modelAngles[LEFT_ARM_DOWN].z += -15.0f / actionSpeed;
-
-		modelAngles[LEFT_HAND].z += -45.0f / actionSpeed;
-
-		modelAngles[LEFT_LEG_UP].x += 90.0f / actionSpeed;
-		modelAngles[LEFT_LEG_UP].y += 5.0f / actionSpeed;
-		modelAngles[LEFT_LEG_UP].z += 45.0f / actionSpeed;
-
-		modelAngles[LEFT_LEG_DOWN].x += -65.0f / actionSpeed;
-
-		modelAngles[LEFT_FOOT].x += 60.0f / actionSpeed;
-		modelAngles[LEFT_FOOT].y += 25.0f / actionSpeed;
-		modelAngles[LEFT_FOOT].z += 15.0f / actionSpeed;
-
-		modelAngles[RIGHT_ARM_UP].x += 70.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].y += 170.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].z += -205.0f / actionSpeed;
-
-		modelAngles[RIGHT_ARM_DOWN].x += -55.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].y += -10.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].z += 75.0f / actionSpeed;
-
-		modelAngles[RIGHT_HAND].x += -90.0f / actionSpeed;
-
-		modelAngles[RIGHT_LEG_UP].x += -50.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].y += -105.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].z += -50.0f / actionSpeed;
-
-		modelAngles[RIGHT_LEG_DOWN].x += 20.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].y += 90.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].z += -30.0f / actionSpeed;
-
-		modelAngles[RIGHT_FOOT].x += -55.0f / actionSpeed;
-
-		fullBodyMovement.y += 0.06f / actionSpeed;
-		fullBodyMovement.z += -0.55f / actionSpeed;
-		if (fullBodyRotation.x <= 10.0)
+		
+		idleCount++;
+		if (idleCount >= actionSpeed)
+		{
+			idleCount = 0;
 			step = 0;
+		}
 		break;
-
 	}
 
 	modelAngles[LEFT_SHOULDER] = modelAngles[LEFT_ARM_UP];

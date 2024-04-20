@@ -1466,7 +1466,7 @@ void Action::BuuVictory(int& step)
 		modelAngles[LEFT_FOOT].z += 10.0f / actionSpeed;
 
 		modelAngles[RIGHT_ARM_UP].x += -85.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].y += -250.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_UP].y += 110.0f / actionSpeed;
 		modelAngles[RIGHT_ARM_UP].z += -20.0f / actionSpeed;
 
 		modelAngles[RIGHT_ARM_DOWN].x += -100.0f / actionSpeed;

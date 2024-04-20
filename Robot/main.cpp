@@ -91,6 +91,7 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
+int tempActionSpeed = 20;
 int actionSpeed = 20;
 
 int testX, testY;
@@ -240,7 +241,7 @@ int main()
 				ImGui::EndCombo();
 			}
 
-			ImGui::SliderInt("Speed", &actionSpeed, 40, 6, "");
+			ImGui::SliderInt("Speed", &actionSpeed, 40, 10, "");
 
 			{
 				if (ImGui::Button("Front"))
@@ -617,6 +618,10 @@ void Action::ChooseAction(int& index)
 		fullBodyMovement = glm::vec3(0.0f, 0.0f, 0.0f);
 	}
 
+	if (step == 0) {
+		tempActionSpeed = actionSpeed;
+	}
+
 	switch (index)
 	{
 	case 0:
@@ -678,40 +683,40 @@ void Action::Walk(int& step)
 		break;
 
 	case 1:
-		modelAngles[RIGHT_ARM_UP].x += -50.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].x += 25.0f / actionSpeed;
-		modelAngles[LEFT_LEG_UP].x += -50.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].x += 50.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_UP].x += -50.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].x += 25.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_UP].x += -50.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].x += 50.0f / tempActionSpeed;
 
 		if (modelAngles[RIGHT_ARM_UP].x <= -50.0f)
 			step = 2;
 		break;
 
 	case 2:
-		modelAngles[RIGHT_ARM_UP].x += 50.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].x += -25.0f / actionSpeed;
-		modelAngles[LEFT_LEG_UP].x += 50.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].x += -50.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_UP].x += 50.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].x += -25.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_UP].x += 50.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].x += -50.0f / tempActionSpeed;
 
 		if (modelAngles[RIGHT_ARM_UP].x >= 0.0f)
 			step = 3;
 		break;
 
 	case 3:
-		modelAngles[LEFT_ARM_UP].x += -50.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].x += 25.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].x += -50.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].x += 50.0f / actionSpeed;
+		modelAngles[LEFT_ARM_UP].x += -50.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].x += 25.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_UP].x += -50.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].x += 50.0f / tempActionSpeed;
 
 		if (modelAngles[LEFT_ARM_UP].x <= -50.0f)
 			step = 4;
 		break;
 
 	case 4:
-		modelAngles[LEFT_ARM_UP].x += 50.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].x += -25.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].x += 50.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].x += -50.0f / actionSpeed;
+		modelAngles[LEFT_ARM_UP].x += 50.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].x += -25.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_UP].x += 50.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].x += -50.0f / tempActionSpeed;
 
 		if (modelAngles[LEFT_ARM_UP].x >= 0.0f)
 			step = 0;
@@ -721,7 +726,7 @@ void Action::Walk(int& step)
 	modelAngles[LEFT_SHOULDER] = modelAngles[LEFT_ARM_UP];
 	modelAngles[RIGHT_SHOULDER] = modelAngles[RIGHT_ARM_UP];
 
-	fullBodyMovement.z += 0.1 / actionSpeed;
+	fullBodyMovement.z += 0.1 / tempActionSpeed;
 
 	if (fullBodyMovement.z >= 2)
 		fullBodyMovement.z = 0;
@@ -736,91 +741,91 @@ void Action::JumpingJack(int& step)
 	case 0:
 		Idle();
 		step = 1;
-		movementSpeedY = 0.2 / actionSpeed;
+		movementSpeedY = 0.2 / tempActionSpeed;
 		break;
 
 	case 1:
-		modelAngles[LEFT_ARM_UP].y += 180.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].y += -180.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].z += 90.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].z += -90.0f / actionSpeed;
-		modelAngles[LEFT_ARM_DOWN].z += -22.5f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].z += 22.5f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].z += -10.0f / actionSpeed;
-		modelAngles[LEFT_LEG_UP].z += 10.0f / actionSpeed;
-		modelAngles[RIGHT_FOOT].z += 10.0f / actionSpeed;
-		modelAngles[LEFT_FOOT].z += -10.0f / actionSpeed;
+		modelAngles[LEFT_ARM_UP].y += 180.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].y += -180.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].z += 90.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].z += -90.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_DOWN].z += -22.5f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].z += 22.5f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_UP].z += -10.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_UP].z += 10.0f / tempActionSpeed;
+		modelAngles[RIGHT_FOOT].z += 10.0f / tempActionSpeed;
+		modelAngles[LEFT_FOOT].z += -10.0f / tempActionSpeed;
 
 		fullBodyMovement.y += movementSpeedY;
-		movementSpeedY += -0.1 / actionSpeed / (2 * actionSpeed - 1);
+		movementSpeedY += -0.1 / tempActionSpeed / (2 * tempActionSpeed - 1);
 
 		if (modelAngles[LEFT_ARM_UP].y >= 180.0f)
 			step = 2;
 		break;
 
 	case 2:
-		modelAngles[LEFT_ARM_UP].z += 90.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].z += -90.0f / actionSpeed;
-		modelAngles[LEFT_ARM_DOWN].z += -22.5f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].z += 22.5f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].z += -10.0f / actionSpeed;
-		modelAngles[LEFT_LEG_UP].z += 10.0f / actionSpeed;
-		modelAngles[RIGHT_FOOT].z += 10.0f / actionSpeed;
-		modelAngles[LEFT_FOOT].z += -10.0f / actionSpeed;
+		modelAngles[LEFT_ARM_UP].z += 90.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].z += -90.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_DOWN].z += -22.5f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].z += 22.5f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_UP].z += -10.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_UP].z += 10.0f / tempActionSpeed;
+		modelAngles[RIGHT_FOOT].z += 10.0f / tempActionSpeed;
+		modelAngles[LEFT_FOOT].z += -10.0f / tempActionSpeed;
 
 		fullBodyMovement.y += movementSpeedY;
-		movementSpeedY += -0.1 / actionSpeed / (2 * actionSpeed - 1);
+		movementSpeedY += -0.1 / tempActionSpeed / (2 * tempActionSpeed - 1);
 
 		if (modelAngles[LEFT_ARM_UP].z >= 180.0f)
 			step = 3;
 		break;
 
 	case 3:
-		fullBodyMovement.y -= 0.75 / actionSpeed;
+		fullBodyMovement.y -= 0.75 / tempActionSpeed;
 
 		if (fullBodyMovement.y <= -0.02f) {
-			movementSpeedY = 0.22f / actionSpeed;
+			movementSpeedY = 0.22f / tempActionSpeed;
 			step = 4;
 		}
 
 		break;
 
 	case 4:
-		modelAngles[LEFT_ARM_UP].y += -180.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].y += 180.0f / actionSpeed;
-		modelAngles[LEFT_ARM_DOWN].z += 45.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].z += -45.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].z += -90.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].z += 90.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].z += 10.0f / actionSpeed;
-		modelAngles[LEFT_LEG_UP].z += -10.0f / actionSpeed;
-		modelAngles[RIGHT_FOOT].z += -10.0f / actionSpeed;
-		modelAngles[LEFT_FOOT].z += 10.0f / actionSpeed;
+		modelAngles[LEFT_ARM_UP].y += -180.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].y += 180.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_DOWN].z += 45.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].z += -45.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].z += -90.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].z += 90.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_UP].z += 10.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_UP].z += -10.0f / tempActionSpeed;
+		modelAngles[RIGHT_FOOT].z += -10.0f / tempActionSpeed;
+		modelAngles[LEFT_FOOT].z += 10.0f / tempActionSpeed;
 
 		fullBodyMovement.y += movementSpeedY;
-		movementSpeedY += -0.11f / actionSpeed / (2 * actionSpeed - 1);
+		movementSpeedY += -0.11f / tempActionSpeed / (2 * tempActionSpeed - 1);
 
 		if (modelAngles[RIGHT_ARM_UP].y >= 0.0f)
 			step = 5;
 		break;
 
 	case 5:
-		modelAngles[LEFT_ARM_UP].z += -90.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].z += 90.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].z += 10.0f / actionSpeed;
-		modelAngles[LEFT_LEG_UP].z += -10.0f / actionSpeed;
-		modelAngles[RIGHT_FOOT].z += -10.0f / actionSpeed;
-		modelAngles[LEFT_FOOT].z += 10.0f / actionSpeed;
+		modelAngles[LEFT_ARM_UP].z += -90.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].z += 90.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_UP].z += 10.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_UP].z += -10.0f / tempActionSpeed;
+		modelAngles[RIGHT_FOOT].z += -10.0f / tempActionSpeed;
+		modelAngles[LEFT_FOOT].z += 10.0f / tempActionSpeed;
 
 		fullBodyMovement.y += movementSpeedY;
-		movementSpeedY += -0.11f / actionSpeed / (2 * actionSpeed - 1);
+		movementSpeedY += -0.11f / tempActionSpeed / (2 * tempActionSpeed - 1);
 
 		if (modelAngles[RIGHT_ARM_UP].z >= 0.0f)
 			step = 6;
 		break;
 
 	case 6:
-		fullBodyMovement.y -= 0.75 / actionSpeed;
+		fullBodyMovement.y -= 0.75 / tempActionSpeed;
 
 		if (fullBodyMovement.y <= 0.0f)
 			step = 0;
@@ -843,24 +848,24 @@ void Action::Squad(int& step)
 		modelAngles[LEFT_ARM_UP].y = -90.0f;
 		modelAngles[RIGHT_ARM_UP].y = 90.0f;
 		movementSpeedY = 0.0f;
-		movementSpeedZ = 0.2f / actionSpeed;
+		movementSpeedZ = 0.2f / tempActionSpeed;
 		step = 1;
 		break;
 	case 1:
 
 		//modelAngles[RIGHT_LEG_UP].y += 20.0f / actionSpeed;
 		//modelAngles[LEFT_LEG_UP].y += -20.0f / actionSpeed;
-		modelAngles[LEFT_LEG_UP].x += -55.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].x += 45.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].x += -55.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].x += 45.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].x += -45.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].x += -45.0f / actionSpeed;
+		modelAngles[LEFT_LEG_UP].x += -55.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].x += 45.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_UP].x += -55.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].x += 45.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].x += -45.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].x += -45.0f / tempActionSpeed;
 		fullBodyMovement.y += -movementSpeedY;
 		fullBodyMovement.z += -movementSpeedZ;
-		fullBodyRotation.x += 10.0f / actionSpeed;
-		movementSpeedY += 0.28f / actionSpeed / (2 * actionSpeed - 1);
-		movementSpeedZ += -0.2f / actionSpeed / (2 * actionSpeed - 1);
+		fullBodyRotation.x += 10.0f / tempActionSpeed;
+		movementSpeedY += 0.28f / tempActionSpeed / (2 * tempActionSpeed - 1);
+		movementSpeedZ += -0.2f / tempActionSpeed / (2 * tempActionSpeed - 1);
 
 
 		if (modelAngles[RIGHT_LEG_UP].x <= -110.0f)
@@ -869,21 +874,21 @@ void Action::Squad(int& step)
 	case 2:
 		//modelAngles[RIGHT_LEG_UP].y += -20.0f / actionSpeed;
 		//modelAngles[LEFT_LEG_UP].y += 20.0f / actionSpeed;
-		modelAngles[LEFT_LEG_UP].x += 55.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].x += -45.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].x += 55.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].x += -45.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].x += 45.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].x += 45.0f / actionSpeed;
+		modelAngles[LEFT_LEG_UP].x += 55.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].x += -45.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_UP].x += 55.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].x += -45.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].x += 45.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].x += 45.0f / tempActionSpeed;
 		fullBodyMovement.y += movementSpeedY;
 		fullBodyMovement.z += movementSpeedZ;
-		fullBodyRotation.x += -10.0f / actionSpeed;
+		fullBodyRotation.x += -10.0f / tempActionSpeed;
 
-		movementSpeedY += -0.28 / actionSpeed / (2 * actionSpeed - 1);
-		movementSpeedZ += 0.2 / actionSpeed / (2 * actionSpeed - 1);
+		movementSpeedY += -0.28 / tempActionSpeed / (2 * tempActionSpeed - 1);
+		movementSpeedZ += 0.2 / tempActionSpeed / (2 * tempActionSpeed - 1);
 		if (modelAngles[RIGHT_LEG_UP].x >= 0.0f) {
 			movementSpeedY = 0.0f;
-			movementSpeedZ = 0.2f / actionSpeed;
+			movementSpeedZ = 0.2f / tempActionSpeed;
 			step = 0;
 		}
 
@@ -920,75 +925,75 @@ void Action::KamaHameHa(int& step)
 		break;
 
 	case 1:
-		modelAngles[LEFT_LEG_UP].y += 90.0f / actionSpeed;
-		modelAngles[LEFT_LEG_UP].z += 35.0f / actionSpeed;
+		modelAngles[LEFT_LEG_UP].y += 90.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_UP].z += 35.0f / tempActionSpeed;
 
-		modelAngles[LEFT_LEG_DOWN].x += 110.0f / actionSpeed;
+		modelAngles[LEFT_LEG_DOWN].x += 110.0f / tempActionSpeed;
 
-		modelAngles[LEFT_FOOT].x += -60.0f / actionSpeed;
-		modelAngles[LEFT_FOOT].y += -25.0f / actionSpeed;
-		modelAngles[LEFT_FOOT].z += -15.0f / actionSpeed;
+		modelAngles[LEFT_FOOT].x += -60.0f / tempActionSpeed;
+		modelAngles[LEFT_FOOT].y += -25.0f / tempActionSpeed;
+		modelAngles[LEFT_FOOT].z += -15.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_LEG_UP].z += 35.0f / actionSpeed;
+		modelAngles[RIGHT_LEG_UP].z += 35.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_LEG_DOWN].x += -30.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].z += 5.0f / actionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].x += -30.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].z += 5.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_FOOT].x += -5.0f / actionSpeed;
+		modelAngles[RIGHT_FOOT].x += -5.0f / tempActionSpeed;
 
-		fullBodyMovement.y += 0.08f / actionSpeed;
+		fullBodyMovement.y += 0.08f / tempActionSpeed;
 
 		if (modelAngles[LEFT_LEG_UP].y >= 95.0)
 			step = 2;
 		break;
 	case 2:
-		fullBodyRotation.x += 15.0f / actionSpeed;
-		fullBodyRotation.y += 85.0f / actionSpeed;
+		fullBodyRotation.x += 15.0f / tempActionSpeed;
+		fullBodyRotation.y += 85.0f / tempActionSpeed;
 
-		modelAngles[BODY_DOWN].z += -10.0f / actionSpeed;
+		modelAngles[BODY_DOWN].z += -10.0f / tempActionSpeed;
 
-		modelAngles[HEAD].x += -15.0f / actionSpeed;
-		modelAngles[HEAD].y += -80.0f / actionSpeed;
-		modelAngles[HEAD].z += -10.0f / actionSpeed;
+		modelAngles[HEAD].x += -15.0f / tempActionSpeed;
+		modelAngles[HEAD].y += -80.0f / tempActionSpeed;
+		modelAngles[HEAD].z += -10.0f / tempActionSpeed;
 
-		modelAngles[LEFT_ARM_UP].x += 110.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].y += -150.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].z += -215.0f / actionSpeed;
+		modelAngles[LEFT_ARM_UP].x += 110.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].y += -150.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].z += -215.0f / tempActionSpeed;
 
-		modelAngles[LEFT_ARM_DOWN].x += 30.0f / actionSpeed;
-		modelAngles[LEFT_ARM_DOWN].y += -30.0f / actionSpeed;
-		modelAngles[LEFT_ARM_DOWN].z += 15.0f / actionSpeed;
+		modelAngles[LEFT_ARM_DOWN].x += 30.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_DOWN].y += -30.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_DOWN].z += 15.0f / tempActionSpeed;
 
-		modelAngles[LEFT_HAND].z += 45.0f / actionSpeed;
+		modelAngles[LEFT_HAND].z += 45.0f / tempActionSpeed;
 
-		modelAngles[LEFT_LEG_UP].x += -90.0f / actionSpeed;
-		modelAngles[LEFT_LEG_UP].y += -95.0f / actionSpeed;
-		modelAngles[LEFT_LEG_UP].z += -80.0f / actionSpeed;
+		modelAngles[LEFT_LEG_UP].x += -90.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_UP].y += -95.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_UP].z += -80.0f / tempActionSpeed;
 
-		modelAngles[LEFT_LEG_DOWN].x += -45.0f / actionSpeed;
+		modelAngles[LEFT_LEG_DOWN].x += -45.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_ARM_UP].x += -70.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].y += -170.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].z += -155.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_UP].x += -70.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].y += -170.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].z += -155.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_ARM_DOWN].x += 55.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].y += 10.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].z += -75.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].x += 55.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].y += 10.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].z += -75.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_HAND].z += -90.0f / actionSpeed;
+		modelAngles[RIGHT_HAND].z += -90.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_LEG_UP].x += 50.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].y += 105.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].z += 15.0f / actionSpeed;
+		modelAngles[RIGHT_LEG_UP].x += 50.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_UP].y += 105.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_UP].z += 15.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_LEG_DOWN].x += 10.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].y += -90.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].z += 25.0f / actionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].x += 10.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].y += -90.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].z += 25.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_FOOT].x += 60.0f / actionSpeed;
+		modelAngles[RIGHT_FOOT].x += 60.0f / tempActionSpeed;
 
-		fullBodyMovement.y += -0.14f / actionSpeed;
-		fullBodyMovement.z += 0.55f / actionSpeed;
+		fullBodyMovement.y += -0.14f / tempActionSpeed;
+		fullBodyMovement.z += 0.55f / tempActionSpeed;
 
 		if (fullBodyRotation.x >= 25.0)
 			step = 3;
@@ -996,7 +1001,7 @@ void Action::KamaHameHa(int& step)
 	case 3:
 		
 		idleCount++;
-		if (idleCount >= actionSpeed)
+		if (idleCount >= tempActionSpeed)
 		{
 			idleCount = 0;
 			step = 0;
@@ -1032,503 +1037,503 @@ void Action::BuuVictory(int& step)
 		step = 1;
 		break;
 	case 1:
-		modelAngles[BODY_DOWN].y += 15.0f / actionSpeed;
+		modelAngles[BODY_DOWN].y += 15.0f / tempActionSpeed;
 
-		modelAngles[HEAD].y += -55.0f / actionSpeed;
+		modelAngles[HEAD].y += -55.0f / tempActionSpeed;
 
-		modelAngles[LEFT_ARM_UP].x += 40.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].y += 30.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].z += 140.0f / actionSpeed;
+		modelAngles[LEFT_ARM_UP].x += 40.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].y += 30.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].z += 140.0f / tempActionSpeed;
 
-		modelAngles[LEFT_ARM_DOWN].x += 25.0f / actionSpeed;
-		modelAngles[LEFT_ARM_DOWN].z += -35.0f / actionSpeed;
+		modelAngles[LEFT_ARM_DOWN].x += 25.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_DOWN].z += -35.0f / tempActionSpeed;
 
-		modelAngles[LEFT_LEG_UP].x += -5.0f / actionSpeed;
-		modelAngles[LEFT_LEG_UP].y += -20.0f / actionSpeed;
-		modelAngles[LEFT_LEG_UP].z += -10.0f / actionSpeed;
+		modelAngles[LEFT_LEG_UP].x += -5.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_UP].y += -20.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_UP].z += -10.0f / tempActionSpeed;
 
-		modelAngles[LEFT_LEG_DOWN].x += 50.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].y += 40.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].z += -10.0f / actionSpeed;
+		modelAngles[LEFT_LEG_DOWN].x += 50.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].y += 40.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].z += -10.0f / tempActionSpeed;
 
-		modelAngles[LEFT_FOOT].x += -45.0f / actionSpeed;
-		modelAngles[LEFT_FOOT].y += 5.0f / actionSpeed;
-		modelAngles[LEFT_FOOT].z += -10.0f / actionSpeed;
+		modelAngles[LEFT_FOOT].x += -45.0f / tempActionSpeed;
+		modelAngles[LEFT_FOOT].y += 5.0f / tempActionSpeed;
+		modelAngles[LEFT_FOOT].z += -10.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_ARM_UP].x += -15.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].y += 55.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].z += 95.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_UP].x += -15.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].y += 55.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].z += 95.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_ARM_DOWN].x += -35.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].y += 10.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].z += -20.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].x += -35.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].y += 10.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].z += -20.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_LEG_UP].x += 25.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].y += 90.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].z += 5.0f / actionSpeed;
+		modelAngles[RIGHT_LEG_UP].x += 25.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_UP].y += 90.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_UP].z += 5.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_LEG_DOWN].x += 15.0f / actionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].x += 15.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_FOOT].x += 55.0f / actionSpeed;
+		modelAngles[RIGHT_FOOT].x += 55.0f / tempActionSpeed;
 
-		fullBodyMovement.y += -0.02f / actionSpeed;
+		fullBodyMovement.y += -0.02f / tempActionSpeed;
 
-		if (modelAngles[BODY_DOWN].y >= -10.0)
+		if (modelAngles[RIGHT_LEG_UP].y >= 30.0)
 			step++;
 		break;
 	case 2: case 10: case 18: case 26:
-		fullBodyRotation.y += 20.0f / actionSpeed;
+		fullBodyRotation.y += 20.0f / tempActionSpeed;
 
-		modelAngles[LEFT_ARM_UP].y += 50.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].z += 45.0f / actionSpeed;
+		modelAngles[LEFT_ARM_UP].y += 50.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].z += 45.0f / tempActionSpeed;
 
-		modelAngles[LEFT_ARM_DOWN].x += -50.0f / actionSpeed;
-		modelAngles[LEFT_ARM_DOWN].y += 15.0f / actionSpeed;
-		modelAngles[LEFT_ARM_DOWN].z += 120.0f / actionSpeed;
+		modelAngles[LEFT_ARM_DOWN].x += -50.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_DOWN].y += 15.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_DOWN].z += 120.0f / tempActionSpeed;
 
-		modelAngles[LEFT_FOOT].z += 5.0f / actionSpeed;
+		modelAngles[LEFT_FOOT].z += 5.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_ARM_UP].x += -65.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].y += -130.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].z += -30.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_UP].x += -65.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].y += -130.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].z += -30.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_ARM_DOWN].x += -10.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].y += 15.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].z += -45.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].x += -10.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].y += 15.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].z += -45.0f / tempActionSpeed;
 
-		if (fullBodyRotation.y >= 45.0)
+		if (modelAngles[LEFT_ARM_DOWN].z >= 30.0)
 			step++;
 		break;
 
 	case 3: case 11: case 19:
-		 fullBodyRotation.y += -20.0f / actionSpeed;
+		 fullBodyRotation.y += -20.0f / tempActionSpeed;
 
-		modelAngles[BODY_DOWN].y += -15.0f / actionSpeed;
+		modelAngles[BODY_DOWN].y += -15.0f / tempActionSpeed;
 
-		modelAngles[LEFT_ARM_UP].x += 20.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].y += 95.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].z += -70.0f / actionSpeed;
+		modelAngles[LEFT_ARM_UP].x += 20.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].y += 95.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].z += -70.0f / tempActionSpeed;
 
-		modelAngles[LEFT_ARM_DOWN].x += 65.0f / actionSpeed;
-		modelAngles[LEFT_ARM_DOWN].y += -40.0f / actionSpeed;
-		modelAngles[LEFT_ARM_DOWN].z += -110.0f / actionSpeed;
+		modelAngles[LEFT_ARM_DOWN].x += 65.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_DOWN].y += -40.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_DOWN].z += -110.0f / tempActionSpeed;
 
-		modelAngles[LEFT_LEG_UP].x += -25.0f / actionSpeed;
-		modelAngles[LEFT_LEG_UP].y += 5.0f / actionSpeed;
-		modelAngles[LEFT_LEG_UP].z += 15.0f / actionSpeed;
+		modelAngles[LEFT_LEG_UP].x += -25.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_UP].y += 5.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_UP].z += 15.0f / tempActionSpeed;
 
-		modelAngles[LEFT_FOOT].x += 20.0f / actionSpeed;
-		modelAngles[LEFT_FOOT].y += 5.0f / actionSpeed;
-		modelAngles[LEFT_FOOT].z += 10.0f / actionSpeed;
+		modelAngles[LEFT_FOOT].x += 20.0f / tempActionSpeed;
+		modelAngles[LEFT_FOOT].y += 5.0f / tempActionSpeed;
+		modelAngles[LEFT_FOOT].z += 10.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_ARM_UP].x += 105.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].y += 285.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].z += -50.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_UP].x += 105.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].y += -75.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].z += -50.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_ARM_DOWN].x += 60.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].y += -5.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].z += 60.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].x += 60.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].y += -5.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].z += 60.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_LEG_UP].x += -30.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].y += -60.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].z += -10.0f / actionSpeed;
+		modelAngles[RIGHT_LEG_UP].x += -30.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_UP].y += -60.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_UP].z += -10.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_LEG_DOWN].x += -5.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].y += -40.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].z += 10.0f / actionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].x += -5.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].y += -40.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].z += 10.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_FOOT].x += -55.0f / actionSpeed;
-		modelAngles[RIGHT_FOOT].y += 15.0f / actionSpeed;
+		modelAngles[RIGHT_FOOT].x += -55.0f / tempActionSpeed;
+		modelAngles[RIGHT_FOOT].y += 15.0f / tempActionSpeed;
 
-		if (fullBodyRotation.y <= 25.0)
+		if (modelAngles[LEFT_ARM_DOWN].z <= -80.0)
 			step++;
 		break;
 
 	case 4: case 12: case 20:
-		fullBodyRotation.y += -50.0f / actionSpeed;
+		fullBodyRotation.y += -50.0f / tempActionSpeed;
 
-		modelAngles[BODY_DOWN].y += 50.0f / actionSpeed;
+		modelAngles[BODY_DOWN].y += 50.0f / tempActionSpeed;
 
-		modelAngles[HEAD].y += 30.0f / actionSpeed;
-
-		if (fullBodyRotation.y <= -25.0)
-			step++;
-		break;
-
-	case 5: case 13: case 21:
-		modelAngles[BODY_DOWN].y += -15.0f / actionSpeed;
-
-		modelAngles[LEFT_ARM_UP].x += -40.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].y += -205.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].z += -80.0f / actionSpeed;
-
-		modelAngles[LEFT_ARM_DOWN].x += -50.0f / actionSpeed;
-		modelAngles[LEFT_ARM_DOWN].y += 10.0f / actionSpeed;
-		modelAngles[LEFT_ARM_DOWN].z += 15.0f / actionSpeed;
-
-		modelAngles[LEFT_LEG_UP].x += 30.0f / actionSpeed;
-		modelAngles[LEFT_LEG_UP].y += -60.0f / actionSpeed;
-		modelAngles[LEFT_LEG_UP].z += -10.0f / actionSpeed;
-
-		modelAngles[LEFT_LEG_DOWN].x += 5.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].y += -40.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].z += 10.0f / actionSpeed;
-
-		modelAngles[LEFT_FOOT].x += 55.0f / actionSpeed;
-		modelAngles[LEFT_FOOT].y += 30.0f / actionSpeed;
-		modelAngles[LEFT_FOOT].z += -25.0f / actionSpeed;
-
-		modelAngles[RIGHT_ARM_UP].x += -20.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].y += -215.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].z += -25.0f / actionSpeed;
-
-		modelAngles[RIGHT_ARM_DOWN].x += -15.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].y += -25.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].z += 10.0f / actionSpeed;
-
-		modelAngles[RIGHT_LEG_UP].x += 25.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].y += 5.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].z += 15.0f / actionSpeed;
-
-		modelAngles[RIGHT_FOOT].x += -20.0f / actionSpeed;
-		modelAngles[RIGHT_FOOT].z += 15.0f / actionSpeed;
-
-		if (modelAngles[BODY_DOWN].y <= 10.0)
-			step++;
-		break;
-	case 6: case 14: case 22:
-		modelAngles[LEFT_ARM_UP].x += -65.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].y += 130.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].z += 30.0f / actionSpeed;
-
-		modelAngles[LEFT_ARM_DOWN].x += -10.0f / actionSpeed;
-		modelAngles[LEFT_ARM_DOWN].y += -15.0f / actionSpeed;
-		modelAngles[LEFT_ARM_DOWN].z += 45.0f / actionSpeed;
-
-		modelAngles[RIGHT_ARM_UP].y += -50.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].z += -45.0f / actionSpeed;
-
-		modelAngles[RIGHT_ARM_DOWN].x += -50.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].y += -15.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].z += -120.0f / actionSpeed;
-		if (modelAngles[LEFT_ARM_UP].x <= -105.0)
-			step++;
-		break;
-	case 7: case 15: case 23:
-		modelAngles[BODY_DOWN].y += 15.0f / actionSpeed;
-
-		modelAngles[LEFT_ARM_UP].x += 105.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].y += 75.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].z += 50.0f / actionSpeed;
-
-		modelAngles[LEFT_ARM_DOWN].x += 60.0f / actionSpeed;
-		modelAngles[LEFT_ARM_DOWN].y += 5.0f / actionSpeed;
-		modelAngles[LEFT_ARM_DOWN].z += -60.0f / actionSpeed;
-
-		modelAngles[LEFT_LEG_UP].x += -30.0f / actionSpeed;
-		modelAngles[LEFT_LEG_UP].y += 60.0f / actionSpeed;
-		modelAngles[LEFT_LEG_UP].z += 10.0f / actionSpeed;
-
-		modelAngles[LEFT_LEG_DOWN].x += -5.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].y += 40.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].z += -10.0f / actionSpeed;
-
-		modelAngles[LEFT_FOOT].x += -55.0f / actionSpeed;
-		modelAngles[LEFT_FOOT].y += -30.0f / actionSpeed;
-		modelAngles[LEFT_FOOT].z += 25.0f / actionSpeed;
-
-		modelAngles[RIGHT_ARM_UP].x += 20.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].y += 265.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].z += 70.0f / actionSpeed;
-
-		modelAngles[RIGHT_ARM_DOWN].x += 65.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].y += 40.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].z += 110.0f / actionSpeed;
-
-		modelAngles[RIGHT_LEG_UP].x += -25.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].y += -5.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].z += -15.0f / actionSpeed;
-
-		modelAngles[RIGHT_FOOT].x += 20.0f / actionSpeed;
-		modelAngles[RIGHT_FOOT].z += -15.0f / actionSpeed;
+		modelAngles[HEAD].y += 30.0f / tempActionSpeed;
 
 		if (modelAngles[BODY_DOWN].y >= 25.0)
 			step++;
 		break;
+
+	case 5: case 13: case 21:
+		modelAngles[BODY_DOWN].y += -15.0f / tempActionSpeed;
+
+		modelAngles[LEFT_ARM_UP].x += -40.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].y += 155.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].z += -80.0f / tempActionSpeed;
+
+		modelAngles[LEFT_ARM_DOWN].x += -50.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_DOWN].y += 10.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_DOWN].z += 15.0f / tempActionSpeed;
+
+		modelAngles[LEFT_LEG_UP].x += 30.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_UP].y += -60.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_UP].z += -10.0f / tempActionSpeed;
+
+		modelAngles[LEFT_LEG_DOWN].x += 5.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].y += -40.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].z += 10.0f / tempActionSpeed;
+
+		modelAngles[LEFT_FOOT].x += 55.0f / tempActionSpeed;
+		modelAngles[LEFT_FOOT].y += 30.0f / tempActionSpeed;
+		modelAngles[LEFT_FOOT].z += -25.0f / tempActionSpeed;
+
+		modelAngles[RIGHT_ARM_UP].x += -20.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].y += 145.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].z += -25.0f / tempActionSpeed;
+
+		modelAngles[RIGHT_ARM_DOWN].x += -15.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].y += -25.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].z += 10.0f / tempActionSpeed;
+
+		modelAngles[RIGHT_LEG_UP].x += 25.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_UP].y += 5.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_UP].z += 15.0f / tempActionSpeed;
+
+		modelAngles[RIGHT_FOOT].x += -20.0f / tempActionSpeed;
+		modelAngles[RIGHT_FOOT].z += 15.0f / tempActionSpeed;
+
+		if (modelAngles[LEFT_ARM_UP].z <= 10.0)
+			step++;
+		break;
+	case 6: case 14: case 22:
+		modelAngles[LEFT_ARM_UP].x += -65.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].y += 130.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].z += 30.0f / tempActionSpeed;
+
+		modelAngles[LEFT_ARM_DOWN].x += -10.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_DOWN].y += -15.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_DOWN].z += 45.0f / tempActionSpeed;
+
+		modelAngles[RIGHT_ARM_UP].y += -50.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].z += -45.0f / tempActionSpeed;
+
+		modelAngles[RIGHT_ARM_DOWN].x += -50.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].y += -15.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].z += -120.0f / tempActionSpeed;
+		if (modelAngles[RIGHT_ARM_DOWN].z <= -30.0)
+			step++;
+		break;
+	case 7: case 15: case 23:
+		modelAngles[BODY_DOWN].y += 15.0f / tempActionSpeed;
+
+		modelAngles[LEFT_ARM_UP].x += 105.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].y += 75.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].z += 50.0f / tempActionSpeed;
+
+		modelAngles[LEFT_ARM_DOWN].x += 60.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_DOWN].y += 5.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_DOWN].z += -60.0f / tempActionSpeed;
+
+		modelAngles[LEFT_LEG_UP].x += -30.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_UP].y += 60.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_UP].z += 10.0f / tempActionSpeed;
+
+		modelAngles[LEFT_LEG_DOWN].x += -5.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].y += 40.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].z += -10.0f / tempActionSpeed;
+
+		modelAngles[LEFT_FOOT].x += -55.0f / tempActionSpeed;
+		modelAngles[LEFT_FOOT].y += -30.0f / tempActionSpeed;
+		modelAngles[LEFT_FOOT].z += 25.0f / tempActionSpeed;
+
+		modelAngles[RIGHT_ARM_UP].x += 20.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].y += -95.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].z += 70.0f / tempActionSpeed;
+
+		modelAngles[RIGHT_ARM_DOWN].x += 65.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].y += 40.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].z += 110.0f / tempActionSpeed;
+
+		modelAngles[RIGHT_LEG_UP].x += -25.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_UP].y += -5.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_UP].z += -15.0f / tempActionSpeed;
+
+		modelAngles[RIGHT_FOOT].x += 20.0f / tempActionSpeed;
+		modelAngles[RIGHT_FOOT].z += -15.0f / tempActionSpeed;
+
+		if (modelAngles[RIGHT_ARM_DOWN].z >= 80.0)
+			step++;
+		break;
 	case 8: case 16: case 24:
-		fullBodyRotation.y += 50.0f / actionSpeed;
+		fullBodyRotation.y += 50.0f / tempActionSpeed;
 
-		modelAngles[BODY_DOWN].y += -50.0f / actionSpeed;
+		modelAngles[BODY_DOWN].y += -50.0f / tempActionSpeed;
 
-		modelAngles[HEAD].y += -30.0f / actionSpeed;
+		modelAngles[HEAD].y += -30.0f / tempActionSpeed;
 		if (fullBodyRotation.y >= 25.0)
 			step++;
 		break;
 	case 9: case 17: case 25:
-		modelAngles[BODY_DOWN].y += 15.0f / actionSpeed;
+		modelAngles[BODY_DOWN].y += 15.0f / tempActionSpeed;
 
-		modelAngles[LEFT_ARM_UP].x += -20.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].y += -145.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].z += 25.0f / actionSpeed;
+		modelAngles[LEFT_ARM_UP].x += -20.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].y += -145.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].z += 25.0f / tempActionSpeed;
 
-		modelAngles[LEFT_ARM_DOWN].x += -15.0f / actionSpeed;
-		modelAngles[LEFT_ARM_DOWN].y += 25.0f / actionSpeed;
-		modelAngles[LEFT_ARM_DOWN].z += -10.0f / actionSpeed;
+		modelAngles[LEFT_ARM_DOWN].x += -15.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_DOWN].y += 25.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_DOWN].z += -10.0f / tempActionSpeed;
 
-		modelAngles[LEFT_LEG_UP].x += 25.0f / actionSpeed;
-		modelAngles[LEFT_LEG_UP].y += -5.0f / actionSpeed;
-		modelAngles[LEFT_LEG_UP].z += -15.0f / actionSpeed;
+		modelAngles[LEFT_LEG_UP].x += 25.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_UP].y += -5.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_UP].z += -15.0f / tempActionSpeed;
 
-		modelAngles[LEFT_FOOT].x += -20.0f / actionSpeed;
-		modelAngles[LEFT_FOOT].y += -5.0f / actionSpeed;
-		modelAngles[LEFT_FOOT].z += -15.0f / actionSpeed;
+		modelAngles[LEFT_FOOT].x += -20.0f / tempActionSpeed;
+		modelAngles[LEFT_FOOT].y += -5.0f / tempActionSpeed;
+		modelAngles[LEFT_FOOT].z += -15.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_ARM_UP].x += -40.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].y += -155.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].z += 80.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_UP].x += -40.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].y += -155.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].z += 80.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_ARM_DOWN].x += -50.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].y += -10.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].z += -15.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].x += -50.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].y += -10.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].z += -15.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_LEG_UP].x += 30.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].y += 60.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].z += 10.0f / actionSpeed;
+		modelAngles[RIGHT_LEG_UP].x += 30.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_UP].y += 60.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_UP].z += 10.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_LEG_DOWN].x += 5.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].y += 40.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].z += -10.0f / actionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].x += 5.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].y += 40.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].z += -10.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_FOOT].x += 55.0f / actionSpeed;
-		modelAngles[RIGHT_FOOT].y += -15.0f / actionSpeed;
+		modelAngles[RIGHT_FOOT].x += 55.0f / tempActionSpeed;
+		modelAngles[RIGHT_FOOT].y += -15.0f / tempActionSpeed;
 
 		if (modelAngles[BODY_DOWN].y >= -10.0)
 			step++;
 		break;
 	case 27:
-		fullBodyRotation.x += 10.0f / actionSpeed;
+		fullBodyRotation.x += 10.0f / tempActionSpeed;
 
-		modelAngles[LEFT_ARM_UP].x += -40.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].y += -205.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].z += -225.0f / actionSpeed;
+		modelAngles[LEFT_ARM_UP].x += -40.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].y += 155.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].z += 135.0f / tempActionSpeed;
 
-		modelAngles[LEFT_ARM_DOWN].x += -15.0f / actionSpeed;
-		modelAngles[LEFT_ARM_DOWN].y += 10.0f / actionSpeed;
-		modelAngles[LEFT_ARM_DOWN].z += 30.0f / actionSpeed;
+		modelAngles[LEFT_ARM_DOWN].x += -15.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_DOWN].y += 10.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_DOWN].z += 30.0f / tempActionSpeed;
 
-		modelAngles[LEFT_LEG_UP].x += -20.0f / actionSpeed;
-		modelAngles[LEFT_LEG_UP].y += 5.0f / actionSpeed;
+		modelAngles[LEFT_LEG_UP].x += -20.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_UP].y += 5.0f / tempActionSpeed;
 
-		modelAngles[LEFT_FOOT].x += 20.0f / actionSpeed;
-		modelAngles[LEFT_FOOT].y += 5.0f / actionSpeed;
+		modelAngles[LEFT_FOOT].x += 20.0f / tempActionSpeed;
+		modelAngles[LEFT_FOOT].y += 5.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_ARM_UP].y += -100.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].z += -120.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_UP].y += -100.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].z += -120.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_ARM_DOWN].x += -15.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].z += 15.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].x += -15.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].z += 15.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_LEG_UP].x += 15.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].y += -110.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].z += -80.0f / actionSpeed;
+		modelAngles[RIGHT_LEG_UP].x += 15.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_UP].y += -110.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_UP].z += -80.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_LEG_DOWN].x += -10.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].y += -10.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].z += 20.0f / actionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].x += -10.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].y += -10.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].z += 20.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_FOOT].x += -30.0f / actionSpeed;
-		modelAngles[RIGHT_FOOT].y += 20.0f / actionSpeed;
-		modelAngles[RIGHT_FOOT].z += -5.0f / actionSpeed;
+		modelAngles[RIGHT_FOOT].x += -30.0f / tempActionSpeed;
+		modelAngles[RIGHT_FOOT].y += 20.0f / tempActionSpeed;
+		modelAngles[RIGHT_FOOT].z += -5.0f / tempActionSpeed;
 
-		fullBodyMovement.y += 0.11f / actionSpeed;
+		fullBodyMovement.y += 0.11f / tempActionSpeed;
 
-		if (fullBodyRotation.x >= 10.0f)
+		if (modelAngles[RIGHT_LEG_UP].y <= -80.0f)
 			step++;
 		break;
 	case 28:
-		fullBodyRotation.y += -20.0f / actionSpeed;
-		fullBodyRotation.z += -40.0f / actionSpeed;
+		fullBodyRotation.y += -20.0f / tempActionSpeed;
+		fullBodyRotation.z += -40.0f / tempActionSpeed;
 
-		modelAngles[HEAD].x += -20.0f / actionSpeed;
-		modelAngles[HEAD].y += 15.0f / actionSpeed;
+		modelAngles[HEAD].x += -20.0f / tempActionSpeed;
+		modelAngles[HEAD].y += 15.0f / tempActionSpeed;
 
-		modelAngles[LEFT_ARM_UP].x += 20.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].y += 70.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].z += 65.0f / actionSpeed;
+		modelAngles[LEFT_ARM_UP].x += 20.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].y += 70.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].z += 65.0f / tempActionSpeed;
 
-		modelAngles[LEFT_ARM_DOWN].x += -20.0f / actionSpeed;
-		modelAngles[LEFT_ARM_DOWN].y += -60.0f / actionSpeed;
-		modelAngles[LEFT_ARM_DOWN].z += -70.0f / actionSpeed;
+		modelAngles[LEFT_ARM_DOWN].x += -20.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_DOWN].y += -60.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_DOWN].z += -70.0f / tempActionSpeed;
 
-		modelAngles[LEFT_LEG_UP].x += -5.0f / actionSpeed;
-		modelAngles[LEFT_LEG_UP].y += 5.0f / actionSpeed;
-		modelAngles[LEFT_LEG_UP].z += 30.0f / actionSpeed;
+		modelAngles[LEFT_LEG_UP].x += -5.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_UP].y += 5.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_UP].z += 30.0f / tempActionSpeed;
 
-		modelAngles[LEFT_LEG_DOWN].x += -20.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].y += -40.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].z += 10.0f / actionSpeed;
+		modelAngles[LEFT_LEG_DOWN].x += -20.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].y += -40.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].z += 10.0f / tempActionSpeed;
 
-		modelAngles[LEFT_FOOT].x += -20.0f / actionSpeed;
-		modelAngles[LEFT_FOOT].y += -10.0f / actionSpeed;
-		modelAngles[LEFT_FOOT].z += 20.0f / actionSpeed;
+		modelAngles[LEFT_FOOT].x += -20.0f / tempActionSpeed;
+		modelAngles[LEFT_FOOT].y += -10.0f / tempActionSpeed;
+		modelAngles[LEFT_FOOT].z += 20.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_ARM_UP].x += -35.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].y += -5.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].z += -75.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_UP].x += -35.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].y += -5.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].z += -75.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_ARM_DOWN].x += 15.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].z += 30.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].x += 15.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].z += 30.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_LEG_UP].x += -5.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].y += -10.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].z += 30.0f / actionSpeed;
+		modelAngles[RIGHT_LEG_UP].x += -5.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_UP].y += -10.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_UP].z += 30.0f / tempActionSpeed;
 
-		fullBodyMovement.y += 0.03f / actionSpeed;
+		fullBodyMovement.y += 0.03f / tempActionSpeed;
 
 		if (fullBodyRotation.y <= 25.0)
 			step++;
 		break;
 	case 29:
-		fullBodyRotation.x += -10.0f / actionSpeed;
-		fullBodyRotation.z += 40.0f / actionSpeed;
+		fullBodyRotation.x += -10.0f / tempActionSpeed;
+		fullBodyRotation.z += 40.0f / tempActionSpeed;
 
-		modelAngles[BODY_DOWN].y += -15.0f / actionSpeed;
+		modelAngles[BODY_DOWN].y += -15.0f / tempActionSpeed;
 
-		modelAngles[HEAD].x += 20.0f / actionSpeed;
-		modelAngles[HEAD].y += -15.0f / actionSpeed;
+		modelAngles[HEAD].x += 20.0f / tempActionSpeed;
+		modelAngles[HEAD].y += -15.0f / tempActionSpeed;
 
-		modelAngles[LEFT_ARM_UP].x += 40.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].y += 230.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].z += 90.0f / actionSpeed;
+		modelAngles[LEFT_ARM_UP].x += 40.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].y += -150.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].z += 90.0f / tempActionSpeed;
 
-		modelAngles[LEFT_ARM_DOWN].x += 100.0f / actionSpeed;
-		modelAngles[LEFT_ARM_DOWN].y += 10.0f / actionSpeed;
-		modelAngles[LEFT_ARM_DOWN].z += -70.0f / actionSpeed;
+		modelAngles[LEFT_ARM_DOWN].x += 100.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_DOWN].y += 10.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_DOWN].z += -70.0f / tempActionSpeed;
 
-		modelAngles[LEFT_LEG_UP].y += -5.0f / actionSpeed;
-		modelAngles[LEFT_LEG_UP].z += -15.0f / actionSpeed;
+		modelAngles[LEFT_LEG_UP].y += -5.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_UP].z += -15.0f / tempActionSpeed;
 
-		modelAngles[LEFT_LEG_DOWN].x += 20.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].y += 40.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].z += -10.0f / actionSpeed;
+		modelAngles[LEFT_LEG_DOWN].x += 20.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].y += 40.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].z += -10.0f / tempActionSpeed;
 
-		modelAngles[LEFT_FOOT].x += 20.0f / actionSpeed;
-		modelAngles[LEFT_FOOT].y += 10.0f / actionSpeed;
-		modelAngles[LEFT_FOOT].z += -10.0f / actionSpeed;
+		modelAngles[LEFT_FOOT].x += 20.0f / tempActionSpeed;
+		modelAngles[LEFT_FOOT].y += 10.0f / tempActionSpeed;
+		modelAngles[LEFT_FOOT].z += -10.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_ARM_UP].x += 140.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].y += 30.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].z += 145.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_UP].x += 140.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].y += 30.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].z += 145.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_ARM_DOWN].x += 60.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].y += -5.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].z += 15.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].x += 60.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].y += -5.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].z += 15.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_LEG_UP].x += -40.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].y += 60.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].z += 40.0f / actionSpeed;
+		modelAngles[RIGHT_LEG_UP].x += -40.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_UP].y += 60.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_UP].z += 40.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_LEG_DOWN].x += 5.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].y += -30.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].z += -10.0f / actionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].x += 5.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].y += -30.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].z += -10.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_FOOT].x += -25.0f / actionSpeed;
-		modelAngles[RIGHT_FOOT].y += -5.0f / actionSpeed;
-		modelAngles[RIGHT_FOOT].z += 5.0f / actionSpeed;
+		modelAngles[RIGHT_FOOT].x += -25.0f / tempActionSpeed;
+		modelAngles[RIGHT_FOOT].y += -5.0f / tempActionSpeed;
+		modelAngles[RIGHT_FOOT].z += 5.0f / tempActionSpeed;
 
-		fullBodyMovement.y += -0.14f / actionSpeed;
+		fullBodyMovement.y += -0.14f / tempActionSpeed;
 
-		if (fullBodyRotation.z >= 0.0)
+		if (modelAngles[RIGHT_LEG_UP].y >= -30.0)
 			step++;
 		break;
 	case 30:
-		modelAngles[BODY_DOWN].y += 15.0f / actionSpeed;
+		modelAngles[BODY_DOWN].y += 15.0f / tempActionSpeed;
 
-		modelAngles[HEAD].x += 15.0f / actionSpeed;
+		modelAngles[HEAD].x += 15.0f / tempActionSpeed;
 
-		modelAngles[LEFT_ARM_UP].x += -80.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].y += -75.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].z += -10.0f / actionSpeed;
+		modelAngles[LEFT_ARM_UP].x += -80.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].y += -75.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].z += -10.0f / tempActionSpeed;
 
-		modelAngles[LEFT_ARM_DOWN].x += -40.0f / actionSpeed;
-		modelAngles[LEFT_ARM_DOWN].y += -40.0f / actionSpeed;
-		modelAngles[LEFT_ARM_DOWN].z += 25.0f / actionSpeed;
+		modelAngles[LEFT_ARM_DOWN].x += -40.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_DOWN].y += -40.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_DOWN].z += 25.0f / tempActionSpeed;
 
-		modelAngles[LEFT_LEG_UP].y += 5.0f / actionSpeed;
-		modelAngles[LEFT_LEG_UP].z += 15.0f / actionSpeed;
+		modelAngles[LEFT_LEG_UP].y += 5.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_UP].z += 15.0f / tempActionSpeed;
 
-		modelAngles[LEFT_LEG_DOWN].x += -50.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].y += -40.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].z += 10.0f / actionSpeed;
+		modelAngles[LEFT_LEG_DOWN].x += -50.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].y += -40.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].z += 10.0f / tempActionSpeed;
 
-		modelAngles[LEFT_FOOT].x += 5.0f / actionSpeed;
-		modelAngles[LEFT_FOOT].y += -10.0f / actionSpeed;
-		modelAngles[LEFT_FOOT].z += 10.0f / actionSpeed;
+		modelAngles[LEFT_FOOT].x += 5.0f / tempActionSpeed;
+		modelAngles[LEFT_FOOT].y += -10.0f / tempActionSpeed;
+		modelAngles[LEFT_FOOT].z += 10.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_ARM_UP].x += -85.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].y += 110.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].z += -20.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_UP].x += -85.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].y += 110.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].z += -20.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_ARM_DOWN].x += -100.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].y += 50.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].z += -20.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].x += -100.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].y += 50.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].z += -20.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_LEG_UP].x += -10.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].y += -5.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].z += -10.0f / actionSpeed;
+		modelAngles[RIGHT_LEG_UP].x += -10.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_UP].y += -5.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_UP].z += -10.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_LEG_DOWN].x += 10.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].y += -5.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].z += 5.0f / actionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].x += 10.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].y += -5.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].z += 5.0f / tempActionSpeed;
 
-		fullBodyMovement.y += -0.04f / actionSpeed;
+		fullBodyMovement.y += -0.04f / tempActionSpeed;
 
 		if (modelAngles[BODY_DOWN].y >= -10.0)
 			step++;
 		break;
 	case 31:
-		modelAngles[HEAD].x += -25.0f / actionSpeed;
+		modelAngles[HEAD].x += -25.0f / tempActionSpeed;
 
-		modelAngles[LEFT_ARM_UP].x += 85.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].y += -25.0f / actionSpeed;
-		modelAngles[LEFT_ARM_UP].z += 80.0f / actionSpeed;
+		modelAngles[LEFT_ARM_UP].x += 85.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].y += -25.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].z += 80.0f / tempActionSpeed;
 
-		modelAngles[LEFT_ARM_DOWN].y += 40.0f / actionSpeed;
-		modelAngles[LEFT_ARM_DOWN].z += 55.0f / actionSpeed;
+		modelAngles[LEFT_ARM_DOWN].y += 40.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_DOWN].z += 55.0f / tempActionSpeed;
 
-		modelAngles[LEFT_LEG_UP].x += 15.0f / actionSpeed;
-		modelAngles[LEFT_LEG_UP].y += -10.0f / actionSpeed;
-		modelAngles[LEFT_LEG_UP].z += -25.0f / actionSpeed;
+		modelAngles[LEFT_LEG_UP].x += 15.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_UP].y += -10.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_UP].z += -25.0f / tempActionSpeed;
 
-		modelAngles[LEFT_LEG_DOWN].x += 25.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].y += 35.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].z += 5.0f / actionSpeed;
+		modelAngles[LEFT_LEG_DOWN].x += 25.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].y += 35.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].z += 5.0f / tempActionSpeed;
 
-		modelAngles[LEFT_FOOT].x += 10.0f / actionSpeed;
-		modelAngles[LEFT_FOOT].y += 10.0f / actionSpeed;
-		modelAngles[LEFT_FOOT].z += -5.0f / actionSpeed;
+		modelAngles[LEFT_FOOT].x += 10.0f / tempActionSpeed;
+		modelAngles[LEFT_FOOT].y += 10.0f / tempActionSpeed;
+		modelAngles[LEFT_FOOT].z += -5.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_ARM_UP].x += 90.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].y += -10.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].z += -50.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_UP].x += 90.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].y += -10.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].z += -50.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_ARM_DOWN].x += 60.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].y += -50.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].z += -60.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].x += 60.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].y += -50.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].z += -60.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_LEG_UP].x += 25.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].y += 15.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].z += 25.0f / actionSpeed;
+		modelAngles[RIGHT_LEG_UP].x += 25.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_UP].y += 15.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_UP].z += 25.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_LEG_DOWN].x += -55.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].y += 5.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].z += -20.0f / actionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].x += -55.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].y += 5.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].z += -20.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_FOOT].x += 25.0f / actionSpeed;
-		modelAngles[RIGHT_FOOT].y += 25.0f / actionSpeed;
-		modelAngles[RIGHT_FOOT].z += -5.0f / actionSpeed;
+		modelAngles[RIGHT_FOOT].x += 25.0f / tempActionSpeed;
+		modelAngles[RIGHT_FOOT].y += 25.0f / tempActionSpeed;
+		modelAngles[RIGHT_FOOT].z += -5.0f / tempActionSpeed;
 
-		fullBodyMovement.y += 0.1f / actionSpeed;
+		fullBodyMovement.y += 0.1f / tempActionSpeed;
 
 		if (modelAngles[HEAD].x <= -10.0)
 			step++;
@@ -1537,7 +1542,7 @@ void Action::BuuVictory(int& step)
 	case 32:
 		
 		idleCount++;
-		if (idleCount >= actionSpeed)
+		if (idleCount >= tempActionSpeed)
 		{
 			idleCount = 0;
 			step = 0;
@@ -1565,60 +1570,60 @@ void Action::Moonwalk(int& step)
 		break;
 
 	case 1:
-		modelAngles[RIGHT_LEG_UP].x += -60.0f / actionSpeed;
-		modelAngles[RIGHT_FOOT].x += 35.0f / actionSpeed;
+		modelAngles[RIGHT_LEG_UP].x += -60.0f / tempActionSpeed;
+		modelAngles[RIGHT_FOOT].x += 35.0f / tempActionSpeed;
 
-		modelAngles[LEFT_ARM_UP].x += 40.0f * 0.67f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].x += -40.0f * 0.67f / actionSpeed;
+		modelAngles[LEFT_ARM_UP].x += 40.0f * 0.67f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].x += -40.0f * 0.67f / tempActionSpeed;
 
-		fullBodyMovement.z += -0.3f / actionSpeed;
+		fullBodyMovement.z += -0.3f / tempActionSpeed;
 
 		if (modelAngles[RIGHT_LEG_UP].x <= -40.0f)
 			step = 2;
 		break;
 
 	case 2:
-		modelAngles[RIGHT_LEG_UP].x += 40.0f * 2.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].x += -40.0f * 2.0f / actionSpeed;
-		modelAngles[RIGHT_FOOT].x += -10.0f * 2.0f / actionSpeed;
-		modelAngles[LEFT_LEG_UP].x += 20.0f * 2.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].x += 40.0f * 2.0f / actionSpeed;
-		modelAngles[LEFT_FOOT].x += -25.0f * 2.0f / actionSpeed;
+		modelAngles[RIGHT_LEG_UP].x += 40.0f * 2.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].x += -40.0f * 2.0f / tempActionSpeed;
+		modelAngles[RIGHT_FOOT].x += -10.0f * 2.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_UP].x += 20.0f * 2.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].x += 40.0f * 2.0f / tempActionSpeed;
+		modelAngles[LEFT_FOOT].x += -25.0f * 2.0f / tempActionSpeed;
 
-		modelAngles[LEFT_ARM_UP].x += 40.0f * 0.33f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].x += -40.0f * 0.33f / actionSpeed;
+		modelAngles[LEFT_ARM_UP].x += 40.0f * 0.33f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].x += -40.0f * 0.33f / tempActionSpeed;
 
-		fullBodyMovement.z += -0.3f / actionSpeed;
+		fullBodyMovement.z += -0.3f / tempActionSpeed;
 
 		if (modelAngles[RIGHT_LEG_UP].x >= 0.0f)
 			step = 3;
 		break;
 
 	case 3:
-		modelAngles[LEFT_LEG_UP].x += -60.0f / actionSpeed;
-		modelAngles[LEFT_FOOT].x += 35.0f / actionSpeed;
+		modelAngles[LEFT_LEG_UP].x += -60.0f / tempActionSpeed;
+		modelAngles[LEFT_FOOT].x += 35.0f / tempActionSpeed;
 
-		modelAngles[LEFT_ARM_UP].x += -40.0f * 0.67f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].x += 40.0f * 0.67f / actionSpeed;
+		modelAngles[LEFT_ARM_UP].x += -40.0f * 0.67f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].x += 40.0f * 0.67f / tempActionSpeed;
 
-		fullBodyMovement.z += -0.3f / actionSpeed;
+		fullBodyMovement.z += -0.3f / tempActionSpeed;
 
 		if (modelAngles[LEFT_LEG_UP].x <= -40.0f)
 			step = 4;
 		break;
 
 	case 4:
-		modelAngles[LEFT_LEG_UP].x += 40.0f * 2.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].x += -40.0f * 2.0f / actionSpeed;
-		modelAngles[LEFT_FOOT].x += -10.0f * 2.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_UP].x += 20.0f * 2.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].x += 40.0f * 2.0f / actionSpeed;
-		modelAngles[RIGHT_FOOT].x += -25.0f * 2.0f / actionSpeed;
+		modelAngles[LEFT_LEG_UP].x += 40.0f * 2.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].x += -40.0f * 2.0f / tempActionSpeed;
+		modelAngles[LEFT_FOOT].x += -10.0f * 2.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_UP].x += 20.0f * 2.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].x += 40.0f * 2.0f / tempActionSpeed;
+		modelAngles[RIGHT_FOOT].x += -25.0f * 2.0f / tempActionSpeed;
 
-		modelAngles[LEFT_ARM_UP].x += -40.0f * 0.33f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].x += 40.0f * 0.33f / actionSpeed;
+		modelAngles[LEFT_ARM_UP].x += -40.0f * 0.33f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].x += 40.0f * 0.33f / tempActionSpeed;
 
-		fullBodyMovement.z += -0.3f / actionSpeed;
+		fullBodyMovement.z += -0.3f / tempActionSpeed;
 
 		if (modelAngles[LEFT_LEG_UP].x >= 0.0f)
 			step = 0;
@@ -1657,170 +1662,171 @@ void Action::GangnamSytle(int& step)
 
 		fullBodyMovement.y = -0.02f;
 
-		movementSpeedY = 0.1 / actionSpeed;
+		movementSpeedY = 0.1 / tempActionSpeed;
 
 		step = 1;
 		break;
 
 	case 1: case 5: case 7: case 11:
-		modelAngles[RIGHT_ARM_UP].x += -30.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].x += 60.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].y += 105.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].z += 65.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_UP].x += -30.0f / tempActionSpeed;
+
+		modelAngles[RIGHT_ARM_DOWN].x += 60.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].y += 105.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].z += 65.0f / tempActionSpeed;
 
 
-		modelAngles[RIGHT_LEG_UP].z += -30.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].x += 20.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].y += -60.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].z += 50.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].x += 15.0f / actionSpeed;
+		modelAngles[RIGHT_LEG_UP].z += -30.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].x += 20.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].y += -60.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].z += 50.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].x += 15.0f / tempActionSpeed;
 
-		fullBodyMovement.y += 0.1f / actionSpeed;
+		fullBodyMovement.y += 0.1f / tempActionSpeed;
 
 		if (modelAngles[RIGHT_ARM_UP].x <= -30.0f)
 			step += 1;
 		break;
 
 	case 2: case 6: case 8: case 12:
-		modelAngles[RIGHT_ARM_UP].x += 30.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].x += -60.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].y += 255.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].z += 295.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_UP].x += 30.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].x += -60.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].y += 255.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].z += 295.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_LEG_UP].z += 30.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].x += -20.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].y += 60.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].z += -50.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].x += -15.0f / actionSpeed;
+		modelAngles[RIGHT_LEG_UP].z += 30.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].x += -20.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].y += 60.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].z += -50.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].x += -15.0f / tempActionSpeed;
 
 		if (fullBodyMovement.y >= 0)
-			fullBodyMovement.y += -0.3f / actionSpeed;
+			fullBodyMovement.y += -0.3f / tempActionSpeed;
 
 		if (modelAngles[RIGHT_ARM_UP].x >= 0.0f)
 			step += 1;
 		break;
 	case 3: case 9: case 13: case 15:
-		modelAngles[RIGHT_ARM_UP].x += -30.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].x += 60.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].y += 105.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].z += 65.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_UP].x += -30.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].x += 60.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].y += 105.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].z += 65.0f / tempActionSpeed;
 
 
-		modelAngles[LEFT_LEG_UP].z += 30.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].x += 20.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].y += 60.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].z += -50.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].x += 15.0f / actionSpeed;
+		modelAngles[LEFT_LEG_UP].z += 30.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].x += 20.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].y += 60.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].z += -50.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].x += 15.0f / tempActionSpeed;
 
-		fullBodyMovement.y += 0.1f / actionSpeed;
+		fullBodyMovement.y += 0.1f / tempActionSpeed;
 
 		if (modelAngles[RIGHT_ARM_UP].x <= -30.0f)
 			step += 1;
 		break;
 	case 4: case 10: case 14: case 16:
-		modelAngles[RIGHT_ARM_UP].x += 30.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].x += -60.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].y += 255.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].z += 295.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_UP].x += 30.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].x += -60.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].y += 255.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].z += 295.0f / tempActionSpeed;
 
 
-		modelAngles[LEFT_LEG_UP].z += -30.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].x += -20.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].y += -60.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].z += 50.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].x += -15.0f / actionSpeed;
+		modelAngles[LEFT_LEG_UP].z += -30.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].x += -20.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].y += -60.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].z += 50.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].x += -15.0f / tempActionSpeed;
 
 		if (fullBodyMovement.y >= 0)
-			fullBodyMovement.y += -0.3f / actionSpeed;
+			fullBodyMovement.y += -0.3f / tempActionSpeed;
 
 		if (modelAngles[RIGHT_ARM_UP].x >= 0.0f)
 			step += 1;
 		break;
 	case 17:
-		modelAngles[RIGHT_ARM_UP].x += -95.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].y += 90.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].z += 90.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].x += 55.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].y += 180.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].z += 50.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_UP].x += -95.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].y += 90.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].z += 90.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].x += 55.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].y += 180.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].z += 50.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_LEG_UP].z += -30.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].x += 20.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].y += -60.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].z += 50.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].x += 15.0f / actionSpeed;
+		modelAngles[RIGHT_LEG_UP].z += -30.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].x += 20.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].y += -60.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].z += 50.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].x += 15.0f / tempActionSpeed;
 
-		fullBodyMovement.y += 0.1f / actionSpeed;
+		fullBodyMovement.y += 0.1f / tempActionSpeed;
 
 		if (modelAngles[RIGHT_ARM_UP].x <= -95.0f)
 			step += 1;
 		break;
 
 	case 21: case 23: case 27:
-		modelAngles[RIGHT_ARM_UP].x += -30.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_UP].x += -30.0f / tempActionSpeed;
 
-		modelAngles[LEFT_ARM_UP].x += -30.0f / actionSpeed;
+		modelAngles[LEFT_ARM_UP].x += -30.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_LEG_UP].z += -30.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].x += 20.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].y += -60.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].z += 50.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].x += 15.0f / actionSpeed;
+		modelAngles[RIGHT_LEG_UP].z += -30.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].x += 20.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].y += -60.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].z += 50.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].x += 15.0f / tempActionSpeed;
 
-		fullBodyMovement.y += 0.1f / actionSpeed;
+		fullBodyMovement.y += 0.1f / tempActionSpeed;
 
 		if (modelAngles[RIGHT_ARM_UP].x <= -95.0f)
 			step += 1;
 		break;
 
 	case 18: case 22: case 24: case 28:
-		modelAngles[RIGHT_ARM_UP].x += 30.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_UP].x += 30.0f / tempActionSpeed;
 
-		modelAngles[LEFT_ARM_UP].x += 30.0f / actionSpeed;
+		modelAngles[LEFT_ARM_UP].x += 30.0f / tempActionSpeed;
 
-		modelAngles[RIGHT_LEG_UP].z += 30.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].x += -20.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].y += 60.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].z += -50.0f / actionSpeed;
-		modelAngles[RIGHT_LEG_DOWN].x += -15.0f / actionSpeed;
+		modelAngles[RIGHT_LEG_UP].z += 30.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].x += -20.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].y += 60.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].z += -50.0f / tempActionSpeed;
+		modelAngles[RIGHT_LEG_DOWN].x += -15.0f / tempActionSpeed;
 
 		if (fullBodyMovement.y >= 0)
-			fullBodyMovement.y += -0.3f / actionSpeed;
+			fullBodyMovement.y += -0.3f / tempActionSpeed;
 
 		if (modelAngles[RIGHT_ARM_UP].x >= -65.0f)
 			step += 1;
 		break;
 
 	case 19: case 25: case 29: case 31:
-		modelAngles[RIGHT_ARM_UP].x += -30.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_UP].x += -30.0f / tempActionSpeed;
 
-		modelAngles[LEFT_ARM_UP].x += -30.0f / actionSpeed;
+		modelAngles[LEFT_ARM_UP].x += -30.0f / tempActionSpeed;
 
-		modelAngles[LEFT_LEG_UP].z += 30.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].x += 20.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].y += 60.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].z += -50.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].x += 15.0f / actionSpeed;
+		modelAngles[LEFT_LEG_UP].z += 30.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].x += 20.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].y += 60.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].z += -50.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].x += 15.0f / tempActionSpeed;
 
-		fullBodyMovement.y += 0.1f / actionSpeed;
+		fullBodyMovement.y += 0.1f / tempActionSpeed;
 
 		if (modelAngles[RIGHT_ARM_UP].x <= -95.0f)
 			step += 1;
 		break;
 
 	case 20: case 26: case 30:
-		modelAngles[RIGHT_ARM_UP].x += 30.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_UP].x += 30.0f / tempActionSpeed;
 
-		modelAngles[LEFT_ARM_UP].x += 30.0f / actionSpeed;
+		modelAngles[LEFT_ARM_UP].x += 30.0f / tempActionSpeed;
 
-		modelAngles[LEFT_LEG_UP].z += -30.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].x += -20.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].y += -60.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].z += 50.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].x += -15.0f / actionSpeed;
+		modelAngles[LEFT_LEG_UP].z += -30.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].x += -20.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].y += -60.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].z += 50.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].x += -15.0f / tempActionSpeed;
 
 		if (fullBodyMovement.y >= 0)
-			fullBodyMovement.y += -0.3f / actionSpeed;
+			fullBodyMovement.y += -0.3f / tempActionSpeed;
 
 		if (modelAngles[RIGHT_ARM_UP].x >= -65.0f)
 			step += 1;
@@ -1828,21 +1834,21 @@ void Action::GangnamSytle(int& step)
 
 	case 32:
 
-		modelAngles[RIGHT_ARM_UP].x += 95.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].y += -90.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_UP].z += -90.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].x += -55.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].y += -180.0f / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].z += -50.0f / actionSpeed;
+		modelAngles[RIGHT_ARM_UP].x += 95.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].y += -90.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_UP].z += -90.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].x += -55.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].y += -180.0f / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].z += -50.0f / tempActionSpeed;
 
-		modelAngles[LEFT_LEG_UP].z += -30.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].x += -20.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].y += -60.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].z += 50.0f / actionSpeed;
-		modelAngles[LEFT_LEG_DOWN].x += -15.0f / actionSpeed;
+		modelAngles[LEFT_LEG_UP].z += -30.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].x += -20.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].y += -60.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].z += 50.0f / tempActionSpeed;
+		modelAngles[LEFT_LEG_DOWN].x += -15.0f / tempActionSpeed;
 
 		if (fullBodyMovement.y >= 0)
-			fullBodyMovement.y += -0.3f / actionSpeed;
+			fullBodyMovement.y += -0.3f / tempActionSpeed;
 
 		if (modelAngles[RIGHT_ARM_UP].x >= 0.0f)
 			step = 0;
@@ -1885,25 +1891,25 @@ void Action::SitUp(int& step)
 		break;
 
 	case 1:
-		modelAngles[RIGHT_LEG_UP].x += -45.0f / 2 / actionSpeed;
+		modelAngles[RIGHT_LEG_UP].x += -45.0f / 2 / tempActionSpeed;
 
-		modelAngles[LEFT_LEG_UP].x += -45.0f / 2 / actionSpeed;
+		modelAngles[LEFT_LEG_UP].x += -45.0f / 2 / tempActionSpeed;
 
-		fullBodyMovement.y += 0.12f / 2 / actionSpeed;
-		fullBodyMovement.z += 0.08f / 2 / actionSpeed;
-		fullBodyRotation.x += 45.0f / 2 / actionSpeed;
+		fullBodyMovement.y += 0.12f / 2 / tempActionSpeed;
+		fullBodyMovement.z += 0.08f / 2 / tempActionSpeed;
+		fullBodyRotation.x += 45.0f / 2 / tempActionSpeed;
 		if (modelAngles[RIGHT_LEG_UP].x <= -115.0f)
 			step = 2;
 		break;
 
 	case 2:
-		modelAngles[RIGHT_LEG_UP].x += 45.0f / 2 / actionSpeed;
+		modelAngles[RIGHT_LEG_UP].x += 45.0f / 2 / tempActionSpeed;
 
-		modelAngles[LEFT_LEG_UP].x += 45.0f / 2 / actionSpeed;
+		modelAngles[LEFT_LEG_UP].x += 45.0f / 2 / tempActionSpeed;
 
-		fullBodyMovement.y += -0.12f / 2 / actionSpeed;
-		fullBodyMovement.z += -0.08f / 2 / actionSpeed;
-		fullBodyRotation.x += -45.0f / 2 / actionSpeed;
+		fullBodyMovement.y += -0.12f / 2 / tempActionSpeed;
+		fullBodyMovement.z += -0.08f / 2 / tempActionSpeed;
+		fullBodyRotation.x += -45.0f / 2 / tempActionSpeed;
 		if (modelAngles[RIGHT_LEG_UP].x >= -70.0f)
 			step = 0;
 		break;
@@ -1934,28 +1940,28 @@ void Action::PushUp(int& step)
 		break;
 
 	case 1:
-		modelAngles[RIGHT_ARM_UP].x += 50.0f / 2 / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].z += 50.0f / 2 / actionSpeed;
+		modelAngles[RIGHT_ARM_UP].x += 50.0f / 2 / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].z += 50.0f / 2 / tempActionSpeed;
 
-		modelAngles[LEFT_ARM_UP].x += 50.0f / 2 / actionSpeed;
-		modelAngles[LEFT_ARM_DOWN].z += -50.0f / 2 / actionSpeed;
+		modelAngles[LEFT_ARM_UP].x += 50.0f / 2 / tempActionSpeed;
+		modelAngles[LEFT_ARM_DOWN].z += -50.0f / 2 / tempActionSpeed;
 
-		fullBodyRotation.x += 6.0f / 2 / actionSpeed;
-		fullBodyMovement.y += -0.08f / 2 / actionSpeed;
+		fullBodyRotation.x += 6.0f / 2 / tempActionSpeed;
+		fullBodyMovement.y += -0.08f / 2 / tempActionSpeed;
 
 		if (modelAngles[RIGHT_ARM_UP].x >= 0.0f)
 			step = 2;
 		break;
 
 	case 2:
-		modelAngles[RIGHT_ARM_UP].x += -50.0f / 2 / actionSpeed;
-		modelAngles[RIGHT_ARM_DOWN].z += -50.0f / 2 / actionSpeed;
+		modelAngles[RIGHT_ARM_UP].x += -50.0f / 2 / tempActionSpeed;
+		modelAngles[RIGHT_ARM_DOWN].z += -50.0f / 2 / tempActionSpeed;
 
-		modelAngles[LEFT_ARM_UP].x += -50.0f / 2 / actionSpeed;
-		modelAngles[LEFT_ARM_DOWN].z += 50.0f / 2 / actionSpeed;
+		modelAngles[LEFT_ARM_UP].x += -50.0f / 2 / tempActionSpeed;
+		modelAngles[LEFT_ARM_DOWN].z += 50.0f / 2 / tempActionSpeed;
 
-		fullBodyRotation.x += -6.0f / 2 / actionSpeed;
-		fullBodyMovement.y += 0.08f / 2 / actionSpeed;
+		fullBodyRotation.x += -6.0f / 2 / tempActionSpeed;
+		fullBodyMovement.y += 0.08f / 2 / tempActionSpeed;
 
 		if (modelAngles[RIGHT_ARM_UP].x <= -50.0f)
 			step = 0;

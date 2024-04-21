@@ -241,7 +241,21 @@ int main()
 				ImGui::EndCombo();
 			}
 
-			ImGui::SliderInt("Speed", &actionSpeed, 40, 10, "");
+			{
+				if (ImGui::Button("Slow"))
+					actionSpeed = 40;
+				ImGui::SameLine();
+
+				if (ImGui::Button("Medium"))
+					actionSpeed = 20;
+				ImGui::SameLine();
+
+				if (ImGui::Button("Fast"))
+					actionSpeed = 10;
+				ImGui::SameLine();
+
+				ImGui::Text("Speed");
+			}
 
 			{
 				if (ImGui::Button("Front"))
@@ -291,6 +305,10 @@ int main()
 			}
 
 			ImGui::Text("FPS: %d", displayFrames);
+			/*ImGui::Text("LEFT_ARM_UP:%f, %f, %f", modelAngles[LEFT_ARM_UP].x, modelAngles[LEFT_ARM_UP].y, modelAngles[LEFT_ARM_UP].z);
+			ImGui::Text("LEFT_ARM_DOWN:%f, %f, %f", modelAngles[LEFT_ARM_DOWN].x, modelAngles[LEFT_ARM_DOWN].y, modelAngles[LEFT_ARM_DOWN].z);
+			ImGui::Text("RIGHT_ARM_UP:%f, %f, %f", modelAngles[RIGHT_ARM_UP].x, modelAngles[RIGHT_ARM_UP].y, modelAngles[RIGHT_ARM_UP].z);
+			ImGui::Text("RIGHT_ARM_DOWN:%f, %f, %f", modelAngles[RIGHT_ARM_DOWN].x, modelAngles[RIGHT_ARM_DOWN].y, modelAngles[RIGHT_ARM_DOWN].z);*/
 
 			ImGui::End();
 		}
@@ -610,16 +628,20 @@ void updateModel() {
 void Action::ChooseAction(int& index)
 {
 	static int priviousIndex = 0;
+	static int priviousStep = 0;
 	static int step;
 	if (priviousIndex != index) {
+		priviousStep = 0;
 		step = 0;
 		priviousIndex = index;
 		fullBodyRotation = glm::vec3(0.0f, 0.0f, 0.0f);
 		fullBodyMovement = glm::vec3(0.0f, 0.0f, 0.0f);
 	}
 
-	if (step == 0) {
+	if ((step == 0) || (step != priviousStep && index != 2 && index != 3)) {
+
 		tempActionSpeed = actionSpeed;
+		priviousStep = step;
 	}
 
 	switch (index)
@@ -999,7 +1021,7 @@ void Action::KamaHameHa(int& step)
 			step = 3;
 		break;
 	case 3:
-		
+
 		idleCount++;
 		if (idleCount >= tempActionSpeed)
 		{
@@ -1106,7 +1128,7 @@ void Action::BuuVictory(int& step)
 		break;
 
 	case 3: case 11: case 19:
-		 fullBodyRotation.y += -20.0f / tempActionSpeed;
+		fullBodyRotation.y += -20.0f / tempActionSpeed;
 
 		modelAngles[BODY_DOWN].y += -15.0f / tempActionSpeed;
 
@@ -1403,7 +1425,7 @@ void Action::BuuVictory(int& step)
 		modelAngles[HEAD].y += -15.0f / tempActionSpeed;
 
 		modelAngles[LEFT_ARM_UP].x += 40.0f / tempActionSpeed;
-		modelAngles[LEFT_ARM_UP].y += -150.0f / tempActionSpeed;
+		modelAngles[LEFT_ARM_UP].y += 210.0f / tempActionSpeed;
 		modelAngles[LEFT_ARM_UP].z += 90.0f / tempActionSpeed;
 
 		modelAngles[LEFT_ARM_DOWN].x += 100.0f / tempActionSpeed;
@@ -1540,7 +1562,7 @@ void Action::BuuVictory(int& step)
 		break;
 
 	case 32:
-		
+
 		idleCount++;
 		if (idleCount >= tempActionSpeed)
 		{
